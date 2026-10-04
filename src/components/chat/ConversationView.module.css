@@ -1,0 +1,239 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: var(--topbar-height);
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.drawerButton {
+  display: none;
+}
+
+.title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--workspace-max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+.skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.loadOlder {
+  display: flex;
+  justify-content: center;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 100%;
+}
+
+.role {
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.content {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* The user's own turn is subtly inset so the transcript reads at a glance. */
+.user .content {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+
+.assistant .content {
+  color: var(--text-secondary);
+}
+
+.system .content {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.composerRegion {
+  flex: none;
+  padding: var(--space-4) var(--space-6) var(--space-6);
+}
+
+.composerColumn {
+  width: 100%;
+  max-width: var(--composer-max-width);
+  margin: 0 auto;
+}
+
+/* ---------------- Live generation ---------------- */
+
+.streamingContent {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.streamingContent::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: caretBlink 1s steps(2) infinite;
+}
+
+@keyframes caretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.thinking {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-faint);
+  font-size: var(--text-sm);
+}
+
+.turnNote {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.fileCitations {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-default, rgba(128, 128, 128, 0.3));
+  font-size: 12px;
+  opacity: 0.85;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.turnError {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+
+.turnErrorText {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  min-width: 0;
+}
+
+.stopRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-2);
+}
+
+.jumpToLatest {
+  position: absolute;
+  right: var(--space-6);
+  bottom: 132px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full, 999px);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.24);
+}
+
+.jumpToLatest:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+@media (max-width: 639px) {
+  .topbar {
+    padding: 0 var(--space-3);
+  }
+
+  .drawerButton {
+    display: inline-flex;
+  }
+
+  .column {
+    padding: var(--space-4) var(--space-3) var(--space-6);
+  }
+
+  .composerRegion {
+    padding: var(--space-3) var(--space-3) var(--space-4);
+  }
+}

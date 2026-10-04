@@ -1,0 +1,38 @@
+.field {
+  padding: 0 var(--space-2) 0 var(--space-3);
+}
+
+.iconButton {
+  display: none;
+}
+
+/* Tablet rail: the search collapses into a single icon action. The repeated
+   class beats the base .field selector from Input.module.css, which otherwise
+   wins the specificity tie and squeezes the field into a sliver. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .root.root {
+    display: none;
+  }
+
+  .iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 0 auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-inset);
+    color: var(--text-secondary);
+    transition: background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .iconButton:hover {
+    background: var(--surface-hover);
+    border-color: var(--border);
+    color: var(--text-primary);
+  }
+}

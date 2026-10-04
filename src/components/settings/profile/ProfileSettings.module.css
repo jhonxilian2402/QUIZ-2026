@@ -1,0 +1,153 @@
+.at {
+  display: inline-flex;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.loadingCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.loadingRows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.saveBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-inset);
+}
+
+.saveBar > p {
+  max-width: 52ch;
+}
+
+.saveActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+
+.bio {
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.bioBody {
+  min-height: 78px;
+  padding: var(--space-4);
+}
+
+.bioTextarea {
+  min-height: 36px;
+  font-size: var(--text-sm);
+}
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.accountGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-6);
+}
+
+.accountItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.accountLabel {
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.accountValue {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.danger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-danger-soft);
+  background: var(--danger-soft);
+}
+
+.dangerText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dangerTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.dangerDescription {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+@media (max-width: 767px) {
+  .accountGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .danger {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .saveBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

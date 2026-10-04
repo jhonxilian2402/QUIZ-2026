@@ -1,0 +1,101 @@
+.orb {
+  position: relative;
+  flex: none;
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.layer {
+  position: relative;
+  z-index: 2;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.layer > div {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+}
+
+.sheen {
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      rgba(255, 246, 236, 0.95) 0%,
+      rgba(255, 226, 214, 0.62) 16%,
+      rgba(196, 178, 232, 0.42) 36%,
+      rgba(120, 132, 214, 0.26) 58%,
+      rgba(22, 24, 42, 0) 76%
+    );
+  animation: orb-drift-a 14s var(--ease-standard) infinite alternate;
+}
+
+.rim {
+  background:
+    radial-gradient(
+      circle at 50% 112%,
+      rgba(255, 176, 156, 0.5) 0%,
+      rgba(196, 118, 176, 0.32) 22%,
+      rgba(90, 96, 190, 0.18) 46%,
+      rgba(20, 22, 40, 0) 70%
+    );
+  animation: orb-drift-b 18s var(--ease-standard) infinite alternate;
+}
+
+.volume {
+  background: radial-gradient(
+    circle at 52% 78%,
+    rgba(0, 0, 0, 0) 42%,
+    rgba(8, 8, 16, 0.4) 74%,
+    rgba(4, 4, 10, 0.62) 100%
+  );
+}
+
+.edge {
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes orb-drift-a {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, 1.5%, 0) scale(1.035);
+  }
+}
+
+@keyframes orb-drift-b {
+  from {
+    transform: translate3d(1.5%, 1%, 0) scale(1.02);
+  }
+  to {
+    transform: translate3d(-2%, -1.5%, 0) scale(1);
+  }
+}
+
+@media (max-width: 639px) {
+  .orb {
+    width: 68px;
+    height: 68px;
+  }
+
+  .layer {
+    width: 60px;
+    height: 60px;
+  }
+}

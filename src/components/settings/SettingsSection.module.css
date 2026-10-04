@@ -1,0 +1,237 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+.description {
+  max-width: 68ch;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.headerAside {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  padding-top: 2px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ---- Group ---- */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--highlight-inset);
+  overflow: hidden;
+}
+
+.groupHead {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-4) var(--space-5) var(--space-3);
+}
+
+.groupTitle {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.groupDescription {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+.groupBody {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-5);
+}
+
+.groupBody > * + * {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Bodyless groups (single control panels) keep their own padding. */
+.groupBody > :only-child {
+  border-top: none;
+}
+
+/* ---- Row ---- */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+  scroll-margin-top: var(--space-6);
+}
+
+.rowStacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+}
+
+.rowDisabled {
+  opacity: 0.55;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowTitle {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+}
+
+.rowDescription {
+  max-width: 62ch;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.rowControl {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.rowStacked .rowControl {
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.rowStacked .rowControl > * {
+  width: 100%;
+}
+
+/* Compact controls sit at their own width instead of stretching. */
+.rowStacked .controlAuto {
+  align-items: flex-start;
+}
+
+.rowStacked .controlAuto > * {
+  width: auto;
+}
+
+/* Highlight a row reached from settings search. */
+.row:target,
+.row[data-highlight="true"] {
+  animation: row-flash var(--duration-slow) var(--ease-out);
+}
+
+@keyframes row-flash {
+  0% {
+    background: var(--accent-soft);
+    box-shadow: -12px 0 0 var(--accent-soft), 12px 0 0 var(--accent-soft);
+  }
+  100% {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+/* ---- Note ---- */
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.noteIcon {
+  display: inline-flex;
+  flex: none;
+  padding-top: 1px;
+}
+
+.note_neutral {
+  color: var(--text-muted);
+}
+
+.note_accent {
+  color: var(--text-secondary);
+}
+
+.note_warning,
+.note_warning .noteIcon {
+  color: var(--warning);
+}
+
+.note_danger,
+.note_danger .noteIcon {
+  color: var(--danger);
+}
+
+@media (max-width: 639px) {
+  .groupHead {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .groupBody {
+    padding: 0 var(--space-4);
+  }
+
+  .row {
+    gap: var(--space-4);
+  }
+
+  .rowStacked {
+    gap: var(--space-3);
+  }
+}

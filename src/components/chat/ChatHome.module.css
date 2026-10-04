@@ -1,0 +1,126 @@
+.orchestrator {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6) 0;
+  pointer-events: none;
+}
+
+.topbar > * {
+  pointer-events: auto;
+}
+
+.topLeft,
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.drawerButton {
+  display: none;
+}
+
+.thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: clip;
+  overscroll-behavior: contain;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  padding: 0 var(--space-6) var(--space-6);
+}
+
+.center {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68vh;
+  padding-top: var(--space-6);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--workspace-max-width);
+  padding-top: 17px;
+  padding-bottom: var(--space-6);
+  gap: 50px;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.composerRegion {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .topbar {
+    padding: var(--space-3) var(--space-4) 0;
+  }
+
+  .stage {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .column {
+    gap: var(--space-7);
+  }
+}
+
+@media (max-width: 639px) {
+  .topbar {
+    padding: var(--space-3) var(--space-3) 0;
+  }
+
+  .drawerButton {
+    display: inline-flex;
+  }
+
+  .stage {
+    padding: 0 var(--space-3) var(--space-3);
+  }
+
+  .center {
+    min-height: 58vh;
+  }
+
+  .column {
+    padding-top: 0;
+    gap: var(--space-6);
+  }
+}

@@ -1,0 +1,77 @@
+.topicInput {
+  width: 100%;
+  height: var(--search-height);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-inset);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  outline: none;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.topicInput::placeholder {
+  color: var(--text-muted);
+}
+
+.topicInput:hover {
+  border-color: var(--border);
+}
+
+.topicInput:focus {
+  border-color: var(--border-focus);
+  background: var(--surface);
+}
+
+.instructions {
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.instructionsBody {
+  min-height: 92px;
+  padding: var(--space-4);
+}
+
+.instructionsTextarea {
+  min-height: 44px;
+  font-size: var(--text-sm);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+/* Compact controls keep their natural width inside a field, matching the
+   Settings rows instead of stretching across the column. */
+.compactControl {
+  align-self: flex-start;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-top: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+.noteIcon {
+  display: inline-flex;
+  flex: none;
+  padding-top: 1px;
+  color: var(--text-faint);
+}
+
+@media (max-width: 639px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+}

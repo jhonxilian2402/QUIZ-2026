@@ -1,0 +1,58 @@
+.composer {
+  width: 100%;
+}
+
+.body {
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  min-height: 95px;
+}
+
+.textarea {
+  font-size: var(--text-base);
+}
+
+.footer {
+  padding: var(--space-1) var(--space-3) var(--space-3);
+}
+
+@media (max-width: 639px) {
+  .body {
+    padding: var(--space-4) var(--space-4) var(--space-3);
+    min-height: 104px;
+  }
+}
+
+.attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: var(--space-3) var(--space-5) 0;
+  list-style: none;
+  margin: 0;
+}
+
+.attachmentChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default, rgba(128, 128, 128, 0.3));
+  font-size: 12px;
+}
+
+.attachmentStatus {
+  opacity: 0.65;
+}
+
+.attachmentChip button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.fileInput {
+  display: none;
+}

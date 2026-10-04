@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+build
+next-env.d.ts
+*.tsbuildinfo
+.env*
+!.env.example
+!tests/.env.test
+.DS_Store
+
+# Embedded development database (real user data, never committed)
+.data

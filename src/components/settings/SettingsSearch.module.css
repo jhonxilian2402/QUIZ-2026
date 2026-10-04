@@ -1,0 +1,138 @@
+.root {
+  position: relative;
+  flex: none;
+  margin-bottom: var(--space-4);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--search-height);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+  color: var(--text-secondary);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.field:hover {
+  border-color: var(--border);
+}
+
+.fieldOpen {
+  border-color: var(--border-focus);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--text-muted);
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.results {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: var(--space-1);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-lg);
+  animation: results-in var(--duration-fast) var(--ease-out);
+}
+
+@keyframes results-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  text-align: left;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.resultActive {
+  background: var(--surface-hover);
+}
+
+.resultText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.resultTitle {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultDescription {
+  color: var(--text-muted);
+  font-size: var(--text-2xs);
+  line-height: 1.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultSection {
+  flex: none;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+}
+
+.empty {
+  padding: var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+/* Mobile: the navigation collapses, so search sits above the scroller. */
+@media (max-width: 639px) {
+  .root {
+    margin-bottom: var(--space-2);
+  }
+}

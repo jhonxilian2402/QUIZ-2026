@@ -1,0 +1,96 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  width: 34px;
+  height: 24px;
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.track {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface-inset);
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+  pointer-events: none;
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: var(--text-muted);
+  transition: transform var(--duration-base) var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard);
+}
+
+.input:checked + .track {
+  background: var(--accent-soft);
+  border-color: var(--accent-ring);
+}
+
+.input:checked + .track .thumb {
+  transform: translateX(14px);
+  background: var(--accent);
+}
+
+.input:focus-visible + .track {
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
+.disabled {
+  opacity: 0.45;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.rowDisabled {
+  opacity: 0.55;
+}
+
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  cursor: pointer;
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}

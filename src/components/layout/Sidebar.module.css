@@ -1,0 +1,117 @@
+.sidebar {
+  position: relative;
+  z-index: var(--z-sidebar);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  height: 100dvh;
+  padding: var(--space-4) var(--space-2) var(--space-2);
+  background-color: var(--sidebar-background);
+  border-right: 1px solid var(--border-subtle);
+  transition: width var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--brand-height);
+  padding: 0 var(--space-2);
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  color: var(--text-primary);
+}
+
+.brandName {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+.search {
+  margin-bottom: var(--space-4);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: var(--space-6);
+}
+
+.history {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: var(--space-3);
+}
+
+.footer {
+  flex: none;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ---- Drawer behaviour (tablet + mobile) ---- */
+
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(84vw, 268px);
+    transform: translateX(-101%);
+    box-shadow: var(--shadow-lg);
+    border-right-color: var(--border);
+  }
+
+  .drawerOpen {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .sidebar {
+    padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  }
+}
+
+/* Tablet rail: keep the sidebar in flow with labels intact. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .sidebar {
+    position: relative;
+    width: var(--sidebar-width-rail);
+    transform: none;
+    box-shadow: none;
+    border-right-color: var(--border-subtle);
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+
+  .brand {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .brandName {
+    display: none;
+  }
+
+  .nav {
+    align-items: stretch;
+  }
+}

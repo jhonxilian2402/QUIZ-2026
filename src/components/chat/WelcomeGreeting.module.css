@@ -1,0 +1,31 @@
+.greeting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  max-width: 620px;
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--text-hero);
+  font-weight: var(--weight-semibold);
+  line-height: 1.18;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.line {
+  display: block;
+}
+
+@media (max-width: 1023px) {
+  .greeting {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 639px) {
+  .greeting {
+    max-width: 22ch;
+    line-height: 1.28;
+  }
+}

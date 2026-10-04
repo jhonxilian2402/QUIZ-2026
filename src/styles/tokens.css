@@ -1,0 +1,386 @@
+:root {
+  /* ------------------------------------------------------------------
+     Surfaces — reconstructed from the reference.
+     The sidebar and the workspace are two tonal steps of the same dark
+     family, never a flat #000000.
+     ------------------------------------------------------------------ */
+  --background: #0c0c0e;
+  --background-secondary: #131316;
+  --sidebar-background: #101013;
+  --workspace-background: #0d0d10;
+  --surface: #17171b;
+  --surface-raised: #1c1c21;
+  --surface-hover: #202027;
+  --surface-active: #26262e;
+  --surface-inset: #0f0f12;
+  --overlay: rgba(8, 8, 10, 0.72);
+  --scrim: rgba(6, 6, 8, 0.6);
+  --avatar-gradient: linear-gradient(150deg, #3a3a44 0%, #26262e 100%);
+  --avatar-initials: #ececf1;
+  --accent-strong: #ffffff;
+  --tint-subtle: rgba(255, 255, 255, 0.025);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.07);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.14);
+
+  /* Workspace ambience. Kept as tokens so the shell reacts to the theme. */
+  --workspace-glow: radial-gradient(
+      120% 78% at 50% -8%,
+      rgba(255, 255, 255, 0.045) 0%,
+      rgba(255, 255, 255, 0.012) 34%,
+      rgba(0, 0, 0, 0) 62%
+    ),
+    radial-gradient(
+      70% 44% at 50% 40%,
+      rgba(150, 145, 190, 0.05) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+  --workspace-vignette: radial-gradient(
+    128% 96% at 50% 42%,
+    rgba(0, 0, 0, 0) 52%,
+    rgba(0, 0, 0, 0.32) 100%
+  );
+
+  /* Borders — deliberately near-invisible separators. */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.045);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-focus: rgba(255, 255, 255, 0.22);
+
+  /* Text */
+  --text-primary: #ececf1;
+  --text-secondary: #ababb5;
+  --text-subtle: #90909b;
+  --text-muted: #7f7f8b;
+  --text-faint: #696974;
+  --text-inverse: #101013;
+
+  /* Accents — kept desaturated on purpose. */
+  --accent: #7f9dff;
+  --accent-soft: rgba(127, 157, 255, 0.14);
+  --accent-ring: rgba(127, 157, 255, 0.32);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.14);
+  --success: #5fd3a0;
+  --success-soft: rgba(95, 211, 160, 0.14);
+  --warning: #e6b566;
+  --warning-soft: rgba(230, 181, 102, 0.14);
+
+  /* Semantic borders — kept separate from --border so status tints stay
+     consistent across every component that renders them. */
+  --border-danger-soft: rgba(255, 107, 107, 0.24);
+  --border-danger: rgba(255, 107, 107, 0.3);
+  --border-danger-strong: rgba(255, 107, 107, 0.4);
+  --border-warning-soft: rgba(230, 181, 102, 0.24);
+  --border-warning: rgba(230, 181, 102, 0.3);
+  --border-success: rgba(95, 211, 160, 0.3);
+  --danger-hover: rgba(255, 107, 107, 0.2);
+
+  /* Spacing scale (4px base) — driven by the density layer below. */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+
+  /* Radius scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 999px;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo,
+    Consolas, monospace;
+
+  /* Type scale — driven by the font-scale layer below. */
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --text-xl: 20px;
+  --text-2xl: 26px;
+  --text-3xl: 32px;
+  --text-4xl: 40px;
+  --text-hero: clamp(24px, 2.35vw, 32px);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.62;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+
+  /* Layout */
+  --sidebar-width: 202px;
+  --sidebar-width-rail: 68px;
+  --settings-nav-width: 212px;
+  --topbar-height: 60px;
+  --workspace-max-width: 756px;
+  --composer-max-width: 756px;
+  --control-height-sm: 28px;
+  --control-height-md: 32px;
+  --control-height-lg: 36px;
+  --brand-height: 36px;
+  --search-height: 34px;
+  --nav-item-height: 32px;
+  --icon-sm: 14px;
+  --icon-md: 16px;
+  --icon-lg: 20px;
+
+  /* Depth — restrained, never glowing. */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.32);
+  --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.38);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.46);
+  --shadow-composer: 0 12px 34px rgba(0, 0, 0, 0.36);
+  --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  /* Motion — driven by the motion layer below. */
+  --duration-instant: 90ms;
+  --duration-fast: 140ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Z-index layers */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-sidebar: 20;
+  --z-overlay: 30;
+  --z-dropdown: 40;
+  --z-tooltip: 50;
+  --z-toast: 60;
+}
+
+/* ==================================================================
+   LIGHT THEME
+   A deliberately re-tuned palette rather than an inversion: surfaces
+   stay layered, borders stay near-invisible and text keeps its ramp.
+   The dark theme remains the primary identity.
+   ================================================================== */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #f3f3f6;
+  --background-secondary: #ebebef;
+  --sidebar-background: #eeeef2;
+  --workspace-background: #f6f6f9;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-hover: #f1f1f5;
+  --surface-active: #e8e8ee;
+  --surface-inset: #f5f5f8;
+  --overlay: rgba(24, 24, 30, 0.28);
+  --scrim: rgba(18, 18, 24, 0.32);
+  --avatar-gradient: linear-gradient(150deg, #e4e4ea 0%, #d2d2da 100%);
+  --avatar-initials: #3a3a44;
+  --accent-strong: #303038;
+  --tint-subtle: rgba(24, 24, 34, 0.02);
+  --scrollbar-thumb: rgba(20, 20, 30, 0.16);
+  --scrollbar-thumb-hover: rgba(20, 20, 30, 0.26);
+
+  --workspace-glow: radial-gradient(
+      120% 78% at 50% -8%,
+      rgba(24, 24, 34, 0.035) 0%,
+      rgba(24, 24, 34, 0.008) 34%,
+      rgba(0, 0, 0, 0) 62%
+    ),
+    radial-gradient(
+      70% 44% at 50% 40%,
+      rgba(120, 120, 160, 0.06) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+  --workspace-vignette: radial-gradient(
+    128% 96% at 50% 42%,
+    rgba(0, 0, 0, 0) 62%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+
+  --border: rgba(22, 22, 30, 0.11);
+  --border-subtle: rgba(22, 22, 30, 0.07);
+  --border-strong: rgba(22, 22, 30, 0.19);
+  --border-focus: rgba(22, 22, 30, 0.32);
+
+  --text-primary: #191920;
+  --text-secondary: #4b4b57;
+  --text-subtle: #5c5c68;
+  --text-muted: #6f6f7c;
+  --text-faint: #9a9aa6;
+  --text-inverse: #ffffff;
+
+  --shadow-xs: 0 1px 2px rgba(20, 20, 30, 0.06);
+  --shadow-sm: 0 2px 6px rgba(20, 20, 30, 0.07);
+  --shadow-md: 0 8px 22px rgba(20, 20, 30, 0.1);
+  --shadow-lg: 0 18px 44px rgba(20, 20, 30, 0.14);
+  --shadow-composer: 0 12px 34px rgba(20, 20, 30, 0.09);
+  --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ==================================================================
+   ACCENT LAYER — controlled personalization.
+   Only accent-driven affordances move: active navigation, primary
+   buttons, focus rings and selected states. Every preset keeps an
+   accessible contrast against both themes.
+   ================================================================== */
+[data-accent="indigo"] {
+  --accent: #7f9dff;
+  --accent-soft: rgba(127, 157, 255, 0.14);
+  --accent-ring: rgba(127, 157, 255, 0.32);
+}
+
+[data-accent="violet"] {
+  --accent: #a48cf5;
+  --accent-soft: rgba(164, 140, 245, 0.15);
+  --accent-ring: rgba(164, 140, 245, 0.32);
+}
+
+[data-accent="teal"] {
+  --accent: #58c2bb;
+  --accent-soft: rgba(88, 194, 187, 0.15);
+  --accent-ring: rgba(88, 194, 187, 0.32);
+}
+
+[data-accent="green"] {
+  --accent: #6ec79a;
+  --accent-soft: rgba(110, 199, 154, 0.15);
+  --accent-ring: rgba(110, 199, 154, 0.32);
+}
+
+[data-accent="amber"] {
+  --accent: #d6ab5c;
+  --accent-soft: rgba(214, 171, 92, 0.16);
+  --accent-ring: rgba(214, 171, 92, 0.34);
+}
+
+[data-accent="rose"] {
+  --accent: #e58ba0;
+  --accent-soft: rgba(229, 139, 160, 0.15);
+  --accent-ring: rgba(229, 139, 160, 0.32);
+}
+
+[data-accent="slate"] {
+  --accent: #9aa6bd;
+  --accent-soft: rgba(154, 166, 189, 0.15);
+  --accent-ring: rgba(154, 166, 189, 0.32);
+}
+
+/* ==================================================================
+   DENSITY LAYER — the same system with controlled spacing variables.
+   Comfortable is the reference density and the untouched default.
+   ================================================================== */
+[data-density="compact"] {
+  --space-1: 3px;
+  --space-2: 6px;
+  --space-3: 9px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-11: 64px;
+  --control-height-sm: 26px;
+  --control-height-md: 30px;
+  --control-height-lg: 34px;
+  --search-height: 32px;
+  --nav-item-height: 30px;
+}
+
+[data-density="spacious"] {
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 28px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 56px;
+  --space-10: 72px;
+  --space-11: 88px;
+  --control-height-sm: 30px;
+  --control-height-md: 34px;
+  --control-height-lg: 38px;
+  --search-height: 36px;
+  --nav-item-height: 36px;
+}
+
+/* ==================================================================
+   MOTION LAYER — full / reduced / minimal. The OS-level
+   prefers-reduced-motion rule below always wins.
+   ================================================================== */
+[data-motion="reduced"] {
+  --duration-instant: 60ms;
+  --duration-fast: 90ms;
+  --duration-base: 120ms;
+  --duration-slow: 180ms;
+}
+
+[data-motion="minimal"] {
+  --duration-instant: 0ms;
+  --duration-fast: 0ms;
+  --duration-base: 0ms;
+  --duration-slow: 0ms;
+}
+
+/* ==================================================================
+   FONT SCALE LAYER — small / default / large. The smallest step stays
+   at or above 10px so nothing becomes unreadable.
+   ================================================================== */
+[data-font-scale="small"] {
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+}
+
+[data-font-scale="large"] {
+  --text-2xs: 12px;
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 15px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 29px;
+  --text-3xl: 36px;
+  --text-4xl: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}

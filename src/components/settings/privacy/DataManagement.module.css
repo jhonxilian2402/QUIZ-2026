@@ -1,0 +1,75 @@
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.actionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.actionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.actionDescription {
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.resetAction {
+  border-top: none;
+}
+
+.exportList {
+  display: flex;
+  flex-direction: column;
+}
+
+.exportItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.exportItem + .exportItem {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.exportText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.exportLabel {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.exportHint {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 767px) {
+  .action {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
