@@ -1,5 +1,7 @@
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle, type PgliteDatabase } from "drizzle-orm/pglite";
+import { drizzle as drizzlePg, type NodePgDatabase } from "drizzle-orm/node-postgres";
+import { Pool, type PoolClient } from "pg";
 import { sql } from "drizzle-orm";
 import { mkdirSync } from "node:fs";
 import { dirname, isAbsolute, resolve } from "node:path";
@@ -10,27 +12,34 @@ import * as schema from "./schema";
 /**
  * Database client.
  *
- * The application talks to PostgreSQL through Drizzle. In this environment the
- * Postgres engine runs embedded via PGlite (real Postgres compiled to WASM,
- * file-backed), so there is no server to install while the schema, SQL, enums
- * and constraints remain genuine PostgreSQL. Pointing at a hosted Postgres
- * later means swapping this client for node-postgres; nothing above it changes.
+ * Two drivers, one Drizzle surface:
+ *  - production / any real DATABASE_URL → node-postgres Pool (PostgreSQL);
+ *  - local development and tests → embedded PGlite (real Postgres as WASM).
+ *
+ * Nothing above this module changes; it only sees the same Drizzle API.
  *
  * The instance is cached on globalThis so Next.js hot reloads and repeated
  * module evaluation do not open additional databases or connections.
  */
 
-export type Database = PgliteDatabase<typeof schema>;
+export type Database =
+  | PgliteDatabase<typeof schema>
+  | NodePgDatabase<typeof schema>;
 
 type GlobalWithDb = typeof globalThis & {
   __quizPglite?: PGlite;
+  __quizPgPool?: Pool;
   __quizDb?: Database;
   __quizDbReady?: Promise<void>;
 };
 
 const globalForDb = globalThis as GlobalWithDb;
 
-function createClient(): PGlite {
+export function isPostgresProduction(): boolean {
+  return Boolean(getEnv().DATABASE_URL);
+}
+
+function createPgliteClient(): PGlite {
   const env = getEnv();
   const configured = env.databaseLocation;
 
@@ -49,16 +58,43 @@ function createClient(): PGlite {
   return new PGlite(location);
 }
 
-export function getClient(): PGlite {
-  if (!globalForDb.__quizPglite) {
-    globalForDb.__quizPglite = createClient();
+function createPool(): Pool {
+  const env = getEnv();
+  const url = new URL(env.DATABASE_URL!);
+  const ssl = url.searchParams.get("sslmode") === "disable" ? false : { rejectUnauthorized: false };
+  return new Pool({
+    connectionString: env.DATABASE_URL,
+    max: 10,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+    ssl: ssl === false ? false : (ssl as object),
+  });
+}
+
+export function getClient(): PGlite | null {
+  if (!isPostgresProduction()) {
+    if (!globalForDb.__quizPglite) {
+      globalForDb.__quizPglite = createPgliteClient();
+    }
+    return globalForDb.__quizPglite;
   }
-  return globalForDb.__quizPglite;
+  return null;
+}
+
+function getPool(): Pool {
+  if (!globalForDb.__quizPgPool) {
+    globalForDb.__quizPgPool = createPool();
+  }
+  return globalForDb.__quizPgPool;
 }
 
 export function getDb(): Database {
   if (!globalForDb.__quizDb) {
-    globalForDb.__quizDb = drizzle(getClient(), { schema });
+    if (isPostgresProduction()) {
+      globalForDb.__quizDb = drizzlePg(getPool(), { schema });
+    } else {
+      globalForDb.__quizDb = drizzle(getClient()!, { schema });
+    }
   }
   return globalForDb.__quizDb;
 }
@@ -71,10 +107,47 @@ export function getDb(): Database {
  * deployment applies are executed here in filename order.
  */
 async function applyMigrations(): Promise<void> {
-  const client = getClient();
-
   const { MIGRATIONS, MIGRATION_LEDGER_TABLE } = await import("./migrations");
 
+  if (isPostgresProduction()) {
+    const pool = getPool();
+    const pgClient = await pool.connect();
+    try {
+      await pgClient.query(
+        `CREATE TABLE IF NOT EXISTS "${MIGRATION_LEDGER_TABLE}" (
+           name text PRIMARY KEY,
+           applied_at timestamp with time zone NOT NULL DEFAULT now()
+         );`
+      );
+      const appliedResult = await pgClient.query<{ name: string }>(
+        `SELECT name FROM "${MIGRATION_LEDGER_TABLE}"`
+      );
+      const pgApplied = new Set(appliedResult.rows.map((row) => row.name));
+      for (const migration of MIGRATIONS) {
+        if (pgApplied.has(migration.name)) continue;
+        await pgClient.query("BEGIN");
+        try {
+          for (const statement of migration.statements) await pgClient.query(statement);
+          await pgClient.query(
+            `INSERT INTO "${MIGRATION_LEDGER_TABLE}" (name) VALUES ($1)`,
+            [migration.name]
+          );
+          await pgClient.query("COMMIT");
+        } catch (error) {
+          await pgClient.query("ROLLBACK");
+          throw new Error(
+            `Migration "${migration.name}" failed: ${error instanceof Error ? error.message : String(error)}`,
+            { cause: error }
+          );
+        }
+      }
+    } finally {
+      pgClient.release();
+    }
+    return;
+  }
+
+  const client = getClient()!;
   await client.exec(
     `CREATE TABLE IF NOT EXISTS "${MIGRATION_LEDGER_TABLE}" (
        name text PRIMARY KEY,
@@ -158,7 +231,11 @@ export async function resetDatabaseForTesting(): Promise<void> {
   if (globalForDb.__quizPglite) {
     await globalForDb.__quizPglite.close();
   }
+  if (globalForDb.__quizPgPool) {
+    await globalForDb.__quizPgPool.end();
+  }
   globalForDb.__quizPglite = undefined;
+  globalForDb.__quizPgPool = undefined;
   globalForDb.__quizDb = undefined;
   globalForDb.__quizDbReady = undefined;
 }

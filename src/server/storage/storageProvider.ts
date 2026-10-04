@@ -88,11 +88,88 @@ class LocalDiskStorageProvider implements StorageProvider {
   }
 }
 
+/**
+ * S3-compatible object storage (Cloudflare R2, AWS S3, MinIO, etc.) via the
+ * SigV4 REST protocol is overkill here; Supabase Storage exposes a simple,
+ * well-documented REST API, which is implemented below. This gives a real,
+ * durable, private object store in production without adding native deps. The
+ * local provider remains for development/tests.
+ *
+ * Env:
+ *   STORAGE_PROVIDER=supabase
+ *   SUPABASE_URL=https://<project>.supabase.co
+ *   SUPABASE_SERVICE_ROLE_KEY=...   (server-only)
+ *   SUPABASE_STORAGE_BUCKET=uploads  (private bucket)
+ */
+class SupabaseStorageProvider implements StorageProvider {
+  readonly id = "supabase-storage";
+  private baseUrl(): string {
+    const env = getEnv();
+    if (!env.SUPABASE_URL) throw new Error("SUPABASE_URL is not configured.");
+    return env.SUPABASE_URL.replace(/\/$/, "");
+  }
+  private bucket(): string {
+    return getEnv().SUPABASE_STORAGE_BUCKET;
+  }
+  private key(): string {
+    const env = getEnv();
+    if (!env.SUPABASE_SERVICE_ROLE_KEY) throw new Error("SUPABASE_SERVICE_ROLE_KEY is not configured.");
+    return env.SUPABASE_SERVICE_ROLE_KEY;
+  }
+  private objectUrl(storageKey: string): string {
+    return `${this.baseUrl()}/storage/v1/object/${this.bucket()}/${storageKey}`;
+  }
+  private headers(): Record<string, string> {
+    return { Authorization: `Bearer ${this.key()}`, apikey: this.key() };
+  }
+
+  async put(input: { userId: string; filename: string; mimeType: string; body: Uint8Array }) {
+    const storageKey = `users/${input.userId}/files/${randomUUID()}/original`;
+    const response = await fetch(this.objectUrl(storageKey), {
+      method: "POST",
+      headers: { ...this.headers(), "Content-Type": input.mimeType },
+      body: input.body as unknown as BodyInit,
+    });
+    if (!response.ok) throw new Error(`Supabase upload failed (${response.status}).`);
+    return { storageKey, persisted: true };
+  }
+  async get(storageKey: string) {
+    const response = await fetch(this.objectUrl(storageKey), { headers: this.headers() });
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`Supabase read failed (${response.status}).`);
+    return new Uint8Array(await response.arrayBuffer());
+  }
+  async remove(storageKey: string) {
+    await fetch(this.objectUrl(storageKey), { method: "DELETE", headers: this.headers() });
+  }
+  async signedUrl(storageKey: string, expiresInSeconds: number) {
+    const response = await fetch(
+      `${this.baseUrl()}/storage/v1/object/sign/${this.bucket()}/${storageKey}`,
+      {
+        method: "POST",
+        headers: { ...this.headers(), "Content-Type": "application/json" },
+        body: JSON.stringify({ expiresIn: expiresInSeconds }),
+      }
+    );
+    if (!response.ok) return null;
+    const payload = (await response.json()) as { signedURL?: string };
+    return payload.signedURL ? `${this.baseUrl()}/storage/v1${payload.signedURL}` : null;
+  }
+}
+
 let active: StorageProvider | null = null;
 
 export function getStorage(): StorageProvider {
-  active ??= new LocalDiskStorageProvider();
+  if (active) return active;
+  const env = getEnv();
+  active = env.STORAGE_PROVIDER === "supabase"
+    ? new SupabaseStorageProvider()
+    : new LocalDiskStorageProvider();
   return active;
+}
+
+export function storageProviderId(): string {
+  return getEnv().STORAGE_PROVIDER === "supabase" ? "supabase-storage" : "local-disk";
 }
 
 /** Test hook: replace or null the active provider. */
@@ -101,7 +178,7 @@ export function setStorage(provider: StorageProvider | null): void {
 }
 
 export const storageStatus = {
-  provider: "local-disk",
+  provider: "runtime-selected",
   durable: true,
-  reason: "Bytes are persisted under STORAGE_DIR (default .data/storage).",
+  reason: "Selected via STORAGE_PROVIDER (local-disk for dev, supabase-storage for production).",
 } as const;

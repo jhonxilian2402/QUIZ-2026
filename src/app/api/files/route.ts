@@ -7,6 +7,7 @@ import * as fileService from "@/server/services/fileService";
 import { getSettings } from "@/server/services/settingsService";
 import { getEnv } from "@/server/config/env";
 import { ValidationError } from "@/server/errors";
+import { storageProviderId } from "@/server/storage/storageProvider";
 
 /**
  * GET /api/files — the caller's file metadata.
@@ -72,7 +73,14 @@ export const POST = createRoute("files/create", async (request) => {
 
   return created({
     file,
-    storage: (await import("@/server/storage/storageProvider")).storageStatus,
+    storage: {
+      provider: storageProviderId(),
+      durable: true,
+      reason:
+        storageProviderId() === "supabase-storage"
+          ? "Bytes are persisted to a private Supabase Storage bucket."
+          : "Bytes are persisted under STORAGE_DIR (local development).",
+    },
     processing: { connected: true, reason: undefined },
   });
 });

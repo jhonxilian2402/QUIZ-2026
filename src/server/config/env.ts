@@ -81,6 +81,11 @@ const baseSchema = z.object({
   STORAGE_URL: z.string().url().optional(),
   /** Local directory for stored file bytes (STORAGE_DIR under project root). */
   STORAGE_DIR: z.string().default(".data/storage"),
+  /** "local-disk" for development, "supabase" for production object storage. */
+  STORAGE_PROVIDER: z.enum(["local-disk", "supabase"]).default("local-disk"),
+  SUPABASE_URL: z.string().url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+  SUPABASE_STORAGE_BUCKET: z.string().min(1).default("uploads"),
   /** Hard cap for one uploaded file decoded to text (bytes). */
   FILE_MAX_SIZE_MB: z.coerce.number().int().min(1).max(256).default(24),
   /** Chunk sizing for document chunking. */
