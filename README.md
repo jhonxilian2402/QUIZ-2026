@@ -257,7 +257,10 @@ Required for a real deployment:
 - `AUTH_SECRET` — long random value (32+ chars)
 - `APP_URL` — public origin, e.g. `https://app.example.com`
 - `DATABASE_URL` — a real PostgreSQL connection string (PGlite is for
-  development only; the same Drizzle migrations run against it)
+  development only; the same Drizzle migrations run against both drivers)
+- Storage: set `STORAGE_PROVIDER=supabase` and provide `SUPABASE_URL`,
+  `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_STORAGE_BUCKET` for a private,
+  durable object store instead of the local `STORAGE_DIR`.
 - `OPENROUTER_API_KEY` — server-only; never bundled into frontend assets
 
 Storage:
